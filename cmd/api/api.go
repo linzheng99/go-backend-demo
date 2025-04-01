@@ -18,11 +18,8 @@ type config struct {
 }
 
 func (app *application) run() error {
-	// 初始化 Gin 路由
-	app.router = gin.Default()
-
 	// 设置路由
-	app.routes()
+	app.setupRoutes()
 
 	// 创建 HTTP 服务器
 	server := &http.Server{
@@ -35,6 +32,18 @@ func (app *application) run() error {
 
 	log.Printf("Starting server on %s", app.config.addr)
 
-	// 启动服务器
 	return server.ListenAndServe()
+}
+
+func (app *application) setupRoutes() {
+	app.router = gin.New()
+
+	app.setupMiddleware()
+
+	app.routes()
+}
+
+func (app *application) setupMiddleware() {
+	app.router.Use(gin.Logger())
+	app.router.Use(gin.Recovery())
 }
