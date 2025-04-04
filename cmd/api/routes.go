@@ -13,10 +13,5 @@ func (app *application) routes() {
 				"message": "Welcome to the API",
 			})
 		})
-		api.GET("/healthcheck", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"status": "ok",
-			})
-		})
 	}
 }
