@@ -1,8 +1,15 @@
 package main
 
+import (
+	"github.com/linzheng99/go-backend-demo/internal/bootstrap"
+	"github.com/linzheng99/go-backend-demo/internal/global"
+)
+
 func main() {
+	bootstrap.Init()
+
 	cfg := config{
-		addr: ":8080",
+		addr: global.Config.Server.Port,
 	}
 
 	app := &application{

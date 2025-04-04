@@ -1,0 +1,14 @@
+server:
+  name: go-backend-demo
+  port: :8080
+  env: development
+
+database:
+  driver: mysql # 数据库驱动
+  host: localhost # 域名
+  port: 3306 # 端口
+  dbname: go-backend-demo # 数据库名
+  user: linzheng
+  password: 123456
+
+
