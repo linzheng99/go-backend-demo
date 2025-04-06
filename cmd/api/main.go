@@ -1,19 +1,36 @@
 package main
 
 import (
-	"github.com/linzheng99/go-backend-demo/internal/bootstrap"
-	"github.com/linzheng99/go-backend-demo/internal/global"
+	"fmt"
+
+	"github.com/linzheng99/go-backend-demo/internal/config"
+	"github.com/linzheng99/go-backend-demo/internal/database"
 )
 
 func main() {
-	bootstrap.Init()
+	// 初始化配置
+	cfg := config.InitConfig()
 
-	cfg := config{
-		addr: global.Config.Server.Port,
+	// 连接数据库
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
+		cfg.Database.Host,
+		cfg.Database.User,
+		cfg.Database.Password,
+		cfg.Database.DBName,
+		cfg.Database.Port,
+	)
+	db, err := database.ConnectDatabase(dsn)
+	if err != nil {
+		panic(err)
+	}
+	err = database.AutoMigrate(db)
+	if err != nil {
+		panic(err)
 	}
 
 	app := &application{
 		config: cfg,
+		db:     db,
 	}
 
 	// 运行应用
