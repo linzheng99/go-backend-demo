@@ -1,16 +1,22 @@
-package user
+package userService
 
 import (
-	user "github.com/linzheng99/go-backend-demo/features/user/model"
-	"gorm.io/gorm"
+	userModel "github.com/linzheng99/go-backend-demo/features/user/model"
+	userRepository "github.com/linzheng99/go-backend-demo/features/user/repository"
 )
 
-func CreateUser(db *gorm.DB, user *user.User) error {
-	return db.Create(user).Error
+type UserService struct {
+	userRepository *userRepository.UserRepo
 }
 
-func GetAllUsers(db *gorm.DB) ([]user.User, error) {
-	var users []user.User
-	err := db.Find(&users).Error
-	return users, err
+func NewUserService(userRepository *userRepository.UserRepo) *UserService {
+	return &UserService{userRepository: userRepository}
+}
+
+func (s *UserService) CreateUser(user *userModel.User) error {
+	return s.userRepository.CreateUser(user)
+}
+
+func (s *UserService) GetAllUsers() ([]userModel.User, error) {
+	return s.userRepository.ListUsers()
 }
