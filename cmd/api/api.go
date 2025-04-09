@@ -19,7 +19,7 @@ type application struct {
 
 func (app *application) run() error {
 	// 设置路由
-	setupRoutes(app)
+	app.routes()
 
 	// 创建 HTTP 服务器
 	server := &http.Server{
@@ -38,19 +38,6 @@ func (app *application) run() error {
 	log.Printf("Starting server on %s", localIP+":"+app.config.Server.Port)
 
 	return server.ListenAndServe()
-}
-
-func setupRoutes(app *application) {
-	app.router = gin.New()
-
-	setupMiddleware(app)
-
-	app.routes()
-}
-
-func setupMiddleware(app *application) {
-	app.router.Use(gin.Logger())
-	app.router.Use(gin.Recovery())
 }
 
 func getLocalIP() (string, error) {
