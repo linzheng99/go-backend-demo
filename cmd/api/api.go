@@ -2,12 +2,12 @@ package main
 
 import (
 	"log"
-	"net"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/linzheng99/go-backend-demo/internal/config"
+	"github.com/linzheng99/go-backend-demo/internal/tool"
 	"gorm.io/gorm"
 )
 
@@ -31,27 +31,11 @@ func (app *application) run() error {
 	}
 
 	// 获取本机 IP 地址
-	localIP, err := getLocalIP()
+	localIP, err := tool.GetLocalIP()
 	if err != nil {
 		log.Printf("Failed to get local IP: %v", err)
 	}
 	log.Printf("Starting server on %s", localIP+":"+app.config.Server.Port)
 
 	return server.ListenAndServe()
-}
-
-func getLocalIP() (string, error) {
-	addrs, err := net.InterfaceAddrs()
-	if err != nil {
-		return "", err
-	}
-
-	for _, addr := range addrs {
-		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				return ipnet.IP.String(), nil
-			}
-		}
-	}
-	return "", nil
 }

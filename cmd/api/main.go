@@ -37,5 +37,4 @@ func main() {
 	if err := app.run(); err != nil {
 		panic(err)
 	}
-
 }

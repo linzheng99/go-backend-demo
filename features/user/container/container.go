@@ -15,6 +15,7 @@ type Container struct {
 	UserHandler    *userHandler.UserHandler
 }
 
+// create a new container
 func NewContainer(db *gorm.DB) *Container {
 	c := &Container{
 		db: db,

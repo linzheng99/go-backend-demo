@@ -14,6 +14,7 @@ type UserRepository interface {
 	ListUsers() ([]userModel.User, error)
 }
 
+// create a new user repository
 func NewUserRepository(db *gorm.DB) *UserRepo {
 	return &UserRepo{db: db}
 }
